@@ -1,0 +1,11 @@
+version: 2
+sql:
+  - schema: "pkg/db/user/schema.sql"
+    queries: "pkg/db/user/query.sql"
+    engine: "postgresql"
+    gen:
+      go:
+        package: "userDb"
+        out: "pkg/db/user"
+        sql_package: "pgx/v5"
+        emit_json_tags: true

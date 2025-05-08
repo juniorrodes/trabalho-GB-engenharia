@@ -1,0 +1,33 @@
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: postgres://postgres:postgres@db:5432/mydb
+    networks:
+      - app-network
+    depends_on:
+      db:
+        restart: true
+
+  db:
+    image: docker.io/library/postgres:15-alpine  # Using lightweight Alpine version
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    ports:
+      - "5432:5432"  # Expose port for local access if needed
+  
+volumes:
+  postgres_data:  # Persistent volume for database data
+
+networks:
+  app-network:
+    driver: bridge
